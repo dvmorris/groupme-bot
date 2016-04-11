@@ -10,7 +10,9 @@
   "dependencies": {
     "director": "",
     "notevil": "^1.0.0",
-    "weather": "^0.1.0"
+    "weather": "^0.1.0",
+    "google-spreadsheet": "",
+    "async": ""
   },
   "engines": {
     "node": "0.10.x"
