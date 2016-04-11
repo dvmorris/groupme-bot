@@ -53,7 +53,7 @@ bot.respond = function (request) {
     }
     if (msg.substring(0, botName.length + 1) === botName + ' ') {
       msg = msg.substring(botName.length + 1);
-      this.processCommand(botConfig.groupLocalID, request.name, msg, function (response) {
+      this.processCommand(botConfig.groupLocalID, request.name, msg, request, function (response) {
         if (response !== null) {
           this.postMessageWithBotID(botConfig.botID, response);
         }
@@ -62,7 +62,7 @@ bot.respond = function (request) {
   }
 };
 
-bot.processCommand = function (groupLocalID, userDisplayName, message, cb) {
+bot.processCommand = function (groupLocalID, userDisplayName, message, originalRequest, cb) {
   var tokens = message.split(' '),
       commandString = tokens.shift();
 
@@ -89,7 +89,7 @@ bot.processCommand = function (groupLocalID, userDisplayName, message, cb) {
     return;
   }
 
-  command[1](groupLocalID, userDisplayName, tokens, cb);
+  command[1](groupLocalID, userDisplayName, tokens, originalRequest, cb);
 };
 
 bot.postMessageWithGroupLocalID = function (groupLocalID, text) {

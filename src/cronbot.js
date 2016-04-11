@@ -2,7 +2,7 @@
 var bot = require('./bot');
 
 var send = function (groupLocalID, msg) {
-  bot.processCommand(groupLocalID, '', msg, function (response) {
+  bot.processCommand(groupLocalID, '', msg, '', function (response) {
     if (response) {
       bot.postMessageWithGroupLocalID(groupLocalID, 'Today\'s random ' + response);
     }

@@ -1,5 +1,6 @@
-src/config.js
+.env
 src/nursekeep-c652ed14da59.json
+private_key
 
 # JetBrains Directory-based project format
 .idea/

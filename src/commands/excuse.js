@@ -70,7 +70,7 @@ module.exports = function (registerCommand) {
   registerCommand(
     'excuse',
     'excuse [designer]: Get a random developer or designer excuse',
-    function (groupLocalID, userDisplayName, msgTokens, callback) {
+    function (groupLocalID, userDisplayName, msgTokens, originalRequest, callback) {
       if (msgTokens[0] === 'designer') {
         getRandomDesignerExcuse(function (excuse) {
           if (excuse) {

@@ -8,10 +8,12 @@ var spreadsheet_key = require('../config').spreadsheet_key;
 var doc = new GoogleSpreadsheet(spreadsheet_key);
 var sheet;
 
-var addFeedbackRow = function (groupLocalId, userDisplayName, message, callback) {
+var addFeedbackRow = function (groupLocalId, userDisplayName, message, originalRequest, callback) {
   async.series([
     function setAuth(step) {
-      doc.useServiceAccountAuth(creds_json, step);
+      doc.useServiceAccountAuth(creds_json, function(err) {
+        step();
+      });
     },
     function getInfoAndWorksheets(step) {
       doc.getInfo(function(err, info) {
@@ -24,12 +26,20 @@ var addFeedbackRow = function (groupLocalId, userDisplayName, message, callback)
     function workingWithRows(step) {
       // google provides some query options
       doc.addRow(sheet.id, {
-        "group_id": groupLocalId,
-        "user_name": userDisplayName,
-        "created_at": Date.now()/1000,
-        "text": message
+        "attachments": originalRequest.attachments,
+        "avatar_url": originalRequest.avatar_url,
+        "created_at": originalRequest.created_at,
+        "group_id": originalRequest.group_id,
+        "id": originalRequest.id, // TODO: fix this column, not uploading to google doc for some reason
+        "name": originalRequest.name,
+        "sender_id": originalRequest.sender_id,
+        "sender_type": originalRequest.sender_type,
+        "source_guid": originalRequest.source_guid,
+        "system": originalRequest.system,
+        "text": message,
+        "user_id": originalRequest.user_id
       }, function( err ){
-        console.log('Added row');
+        console.log('Added row: ', message);
         step();
       });
     },
@@ -46,10 +56,11 @@ module.exports = function (registerCommand) {
   registerCommand(
     'feedback',
     'feedback <text>: Provide feedback about your most recent shift',
-    function (groupLocalID, userDisplayName, msgTokens, callback) {
+    function (groupLocalID, userDisplayName, msgTokens, originalRequest, callback) {
       var text = msgTokens[0];
+      console.log(text);
       if (text) {
-        addFeedbackRow(groupLocalID, userDisplayName, text, function (data) {
+        addFeedbackRow(groupLocalID, userDisplayName, text, originalRequest, function (data) {
           if (data.status == 'success') {
             callback('Thank you, your feedback has been recorded.');
           } else {

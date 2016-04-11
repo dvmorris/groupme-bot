@@ -38,7 +38,7 @@ module.exports = function (registerCommand) {
   registerCommand(
     'enterprisejs',
     'enterprisejs: Get a random funny tip for writing "enterprise" quality JS',
-    function (groupLocalID, userDisplayName, msgTokens, callback) {
+    function (groupLocalID, userDisplayName, msgTokens, originalRequest, callback) {
       getRandomEnterpriseJsTip(function (tip) {
         if (tip) {
           callback(tip);

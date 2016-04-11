@@ -19,7 +19,7 @@ module.exports = function (registerCommand) {
   registerCommand(
     'weather',
     'weather <city>: Get the current weather for city',
-    function (groupLocalID, userDisplayName, msgTokens, callback) {
+    function (groupLocalID, userDisplayName, msgTokens, originalRequest, callback) {
       var city = msgTokens[0];
       if (city) {
         getWeatherForCity(city, function (data) {
