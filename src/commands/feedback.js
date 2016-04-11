@@ -36,7 +36,7 @@ var addFeedbackRow = function (groupLocalId, userDisplayName, message, originalR
         "sender_type": originalRequest.sender_type,
         "source_guid": originalRequest.source_guid,
         "system": originalRequest.system,
-        "text": message,
+        "text": originalRequest.text,
         "user_id": originalRequest.user_id
       }, function( err ){
         console.log('Added row: ', message);
